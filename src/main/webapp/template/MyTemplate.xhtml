@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html   xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		
+		xmlns:f="http://java.sun.com/jsf/core">
+
+
+
+		
+		
+		<ui:debug />
+		<f:metadata>
+			<ui:insert name="metadata" />
+		</f:metadata>
+		<f:loadBundle basename="com.bun.Bundle" var="msg"/>
+		  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<h:head>
+		<title>Page template with PrimeFaces</title>
+		 <style>
+		.MyTopMenu .ui-layout-unit-content {
+            padding: 0.2em 0em;
+            border: 0px none;
+            overflow: hidden !important;
+        }
+        
+       
+    </style>
+		</h:head>
+
+	<h:body>
+			
+
+			<p:layout fullPage="true" resizeTitle="resize" style="background-color:#FFFFFF;">
+
+				<p:layoutUnit position="north" styleClass="MyTopMenu" closable="false" id="north"  >
+				<p:outputPanel style="height:45px;padding:2px;" >
+				<ui:include src="/template/MyHeader.xhtml" ></ui:include>
+				</p:outputPanel>
+				</p:layoutUnit>
+		
+			<p:layoutUnit position="west" size="222" header="#{msg['menu.title']}"  resizable="true" closable="false"  collapsible="true" >
+				<h:form id="sidebar">
+						<ui:include src="/template/MyMenu.xhtml" />
+					</h:form>	
+				</p:layoutUnit>
+				
+				<p:layoutUnit		position="center">
+					
+						
+						<p:panel header="Infotrellis Test Management System" toggleable="true" >
+						<ui:include src="/template/MyContent.xhtml" />
+						</p:panel>
+						
+						
+						
+					
+				</p:layoutUnit>
+				
+			<!-- 	<p:layoutUnit position="east" size="0" style="width:0px; display:none;" id="east">
+				</p:layoutUnit>
+				 -->
+				<p:layoutUnit position="south" resizable="true" id="south">
+					<h:outputText>North </h:outputText>
+				</p:layoutUnit>
+
+			</p:layout>
+			
+			<p:dialog modal="true" widgetVar="statusDialog" showHeader="false" 
+				draggable="false" closable="false" resizable="false" 
+				visible="false" position="center" maximizable="false" minimizable="false" >
+				<p:graphicImage value="#{resource['images/ajax-loader.gif']}" />
+			</p:dialog>
+			
+		
+		
+	</h:body>
+
+
+</html>		

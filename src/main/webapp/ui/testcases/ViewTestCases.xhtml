@@ -1,0 +1,572 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/MyTemplate.xhtml">
+	<ui:define name="metadata">
+	</ui:define>
+
+	<ui:define name="content">
+		<h1 class="page-header ">
+			<i class="fa fa-tachometer"></i>Total Test Case Summary
+		</h1>
+		<h:form id="form">
+
+			<h:outputStylesheet>
+    
+     
+   .MyDataTableStyle table{
+     font-size:smaller;
+    
+     }
+     .viewMyDataTableStyle .ui-panelgrid-cell >span
+     {
+     
+     overflow: scroll;
+   word-break: break-all;
+     }
+      .viewMyDataTableStyle label
+     {
+     font-weight:600;
+     }
+      MyDataTableStyle1 .ui-panelgrid-cell
+     {
+     
+  width: 100px;
+     }
+      </h:outputStylesheet>
+			<br />
+			<p:growl id="msgs" showDetail="true" />
+			<h:panelGrid columns="3" style="text-align:right;">
+				<p:commandButton id="AddTestcase" type="submit"
+					action="#{testcaseController.prepareCreate}" value="AddTestcase"
+					style="float:right;" icon="ui-icon-folder-collapsed" />
+
+
+			</h:panelGrid>
+			<h:panelGrid columns="4">
+
+
+				<h:commandLink>
+					<h:outputText value="PDF" />
+					<p:dataExporter type="pdf" target="TestcaseTable"
+						fileName="TestExecutionSummary_#{testcaseView.currentTimeStamp}" />
+				</h:commandLink>
+
+
+				<h:commandLink>
+					<h:outputText value="XL" />
+					<p:dataExporter type="xls" target="TestcaseTable"
+						fileName="TestExecutionSummary_#{testcaseView.currentTimeStamp}" />
+				</h:commandLink>
+
+
+				<h:commandLink>
+					<h:outputText value="XML" />
+					<p:dataExporter type="xml" target="TestcaseTable"
+						fileName="TestExecutionSummary_#{testcaseView.currentTimeStamp}" />
+				</h:commandLink>
+
+
+				<h:commandLink>
+					<h:outputText value="CSV" />
+					<p:dataExporter type="csv" target="TestcaseTable"
+						fileName="TestExecutionSummary_#{testcaseView.currentTimeStamp}" />
+				</h:commandLink>
+
+
+			</h:panelGrid>
+			<h:panelGrid columns="1" styleClass="MyDataTableStyle">
+				<p:dataTable var="testcases" value="#{testcaseView.testcaseModel}"
+					paginator="true" rows="10"
+					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+					rowsPerPageTemplate="5,10,15" selectionMode="single"
+					selection="#{testcaseView.selectedTestcase}"
+					rowKey="#{testcases.scenarioID}" id="TestcaseTable"
+					widgetVar="runnerTable"
+					emptyMessage="No records found with given criteria">
+					<!-- <p:ajax event="rowSelect" listener="#{testcaseView.onRowSelect}" update=":form:carDetail" oncomplete="PF('carDialog').show()" />
+         -->
+
+
+
+
+
+					<f:facet name="header">
+
+						<h:outputText value="Search all fields:  " />
+						<p:inputText id="globalFilter"
+							onkeyup="PF('runnerTable').filter()" style="width:200px;"
+							placeholder="Enter keyword" />
+						<!--   <p:commandButton id="viewMultiple"  update=":form:carDetail" oncomplete="PF('carDialog').show()" value="View Multiple"  style="float:right;" icon="ui-icon-calculator">
+                
+                <f:setPropertyActionListener value="#{testcases}" target="#{testcaseView.selectedTestcase}" />
+                
+            </p:commandButton> -->
+						<p:commandButton id="toggler" type="button" value="Columns"
+							style="float:right;" icon="ui-icon-calculator" />
+						<p:columnToggler datasource="TestcaseTable" trigger="toggler" />
+
+
+					</f:facet>
+
+
+					<p:column headerText="SNO" sortBy="#{testcases.testcaseIdpk}"
+						filterBy="#{testcases.testcaseIdpk}" filterMatchMode="contains">
+						<h:outputText value="#{testcases.testcaseIdpk}" />
+
+					</p:column>
+					<p:column headerText="Tester" sortBy="#{testcases.tester}"
+						filterBy="#{testcases.tester}">
+						<h:outputText value="#{testcases.tester}" />
+					</p:column>
+					<p:column style="width:600px;" headerText="TestCaseID"
+						filterBy="#{testcases.expected_result}" filterMatchMode="contains">
+						<h:outputText value="#{testcases.expected_result}" />
+					</p:column>
+					<p:column headerText="Status" filterBy="#{testcases.status}"
+						filterMatchMode="contains">
+						<h:outputText value="#{testcases.status}" />
+					</p:column>
+					<p:column headerText="date" filterBy="#{testcases.created_Date}"
+						filterMatchMode="contains">
+						<h:outputText value="#{testcases.created_Date}" />
+					</p:column>
+					<p:column headerText="View" style="width:32px;text-align: center">
+						<p:commandButton update=":form:viewTestcases"
+							oncomplete="PF('viewTestcaseDialog').show()"
+							icon="ui-icon-search" title="View">
+							<f:setPropertyActionListener value="#{testcases}"
+								target="#{testcaseView.selectedTestcase}" />
+						</p:commandButton>
+						<p:commandButton update=":form:editTestcases"
+							oncomplete="PF('editTestcasesDialog').show()"
+							icon="ui-icon-pencil" title="Edit">
+							<f:setPropertyActionListener value="#{testcases}"
+								target="#{testcaseView.editselectedTestcase}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+			</h:panelGrid>
+
+
+			<p:dialog header="Test Runner Details"
+				widgetVar="editTestcasesDialog" resizable="false"
+				style="width:1300px;height:400px">
+				<p:outputPanel id="editTestcases">
+					<!--    <ui:repeat value="#{testcaseView.selectedTestcases}" var="testcases"> -->
+					<p:panelGrid columns="1"
+						rendered="#{not empty testcaseView.editselectedTestcase}"
+						styleClass="MyDataTableStyle" style="width:1250px;height:400px">
+						<f:facet name="header">
+                    TestRunner
+                </f:facet>
+
+
+
+
+						<p:outputPanel id="editTest"
+							style="width:1250px;height:650px;overflow:auto;padding:10px;">
+							<p:panelGrid columns="2" styleClass="MyDataTableStyle"
+								style="width:1200px;height:650px;padding:10px;">
+
+								<h:outputLabel value="ID:" />
+								<h:outputLabel
+									value="#{testcaseView.editselectedTestcase.testcaseIdpk}" />
+								<h:outputLabel value="Test Case Name:" />
+								<p:inputTextarea rows="1" cols="110" escape="false"
+									style="resize: none" autoResize="false"
+									value="#{testcaseView.editselectedTestcase.test_Case_ID}" />
+								<h:outputLabel value="ScenarioID:" />
+								<h:outputLabel
+									value="#{testcaseView.editselectedTestcase.scenarioID}" />
+								<h:outputLabel value="Scenario:" />
+								<p:inputTextarea rows="4" cols="110" escape="false"
+									style="resize: none" autoResize="false"
+									value="#{testcaseView.editselectedTestcase.scenario}" />
+								<h:outputLabel value="Test Description:" />
+								<p:inputTextarea rows="8" cols="110" escape="false"
+									style="resize: none" autoResize="false"
+									value="#{testcaseView.editselectedTestcase.test_Case_Description}" />
+
+								<h:outputLabel value="Test Data:" />
+								<p:inputTextarea rows="12" cols="110" escape="false"
+									style="resize: none" autoResize="false"
+									value="#{testcaseView.editselectedTestcase.test_data}" />
+								<h:outputLabel value="Expected Result:" />
+								<p:inputTextarea rows="15" cols="110" escape="false"
+									style="resize: none" autoResize="false"
+									value="#{testcaseView.editselectedTestcase.expected_result}" />
+
+
+
+							</p:panelGrid>
+
+							<p:panelGrid columns="4" styleClass="MyDataTableStyle"
+								style="width:1200px;height:650px;padding:10px;">
+
+								<h:outputLabel value="Test_Case_Flow:" />
+								<h:inputText
+									value="#{testcaseView.editselectedTestcase.test_Case_Flow}" />
+								<h:outputLabel value="Status:" />
+								<h:inputText value="#{testcaseView.editselectedTestcase.status}" />
+
+								<h:outputLabel value="Model :" />
+								<h:inputText value="#{testcaseView.editselectedTestcase.model}" />
+
+								<h:outputLabel value="Component:" />
+								<h:inputText
+									value="#{testcaseView.editselectedTestcase.component}" />
+
+								<h:outputLabel value="Dependent test cases:" />
+								<p:inputTextarea rows="3" cols="40" escape="false"
+									style="resize: none" autoResize="false"
+									value="#{testcaseView.editselectedTestcase.dependent_test_cases}" />
+
+
+
+								<h:outputLabel value="Module:" />
+								<p:inputTextarea rows="3" cols="40" escape="false"
+									style="resize: none" autoResize="false"
+									value="#{testcaseView.editselectedTestcase.module}" />
+
+								<h:outputLabel value="Level :" />
+								<h:inputText value="#{testcaseView.editselectedTestcase.level}" />
+
+								<h:outputLabel value="Entity Type:" />
+								<h:inputText value="#{testcaseView.editselectedTestcase.title}" />
+
+
+								<h:outputLabel value="Tester:" />
+								<h:inputText value="#{testcaseView.editselectedTestcase.tester}" />
+
+								<h:outputLabel value="TestingType:" />
+								<h:inputText
+									value="#{testcaseView.editselectedTestcase.testingType}" />
+
+								<h:outputLabel value="Reference:" />
+								<p:inputTextarea rows="3" cols="50" escape="false"
+									style="resize: none" autoResize="false"
+									value="#{testcaseView.editselectedTestcase.reference}" />
+
+
+
+
+								<h:outputLabel value="Created Date:" />
+								<p:calendar id="edit_created_Date"
+									maxdate="#{testcaseView.todatdt}"
+									value="#{testcaseView.editselectedTestcase.created_Date}"
+									pattern="MM/dd/yyyy HH:mm:ss" />
+
+								<h:outputLabel value="Last Update Date:" />
+								<p:calendar id="edit_last_Updated_dt"
+									maxdate="#{testcaseView.todatdt}"
+									value="#{testcaseView.editselectedTestcase.last_Updated_dt}"
+									pattern="MM/dd/yyyy HH:mm:ss" />
+								<h:outputLabel value="Comments" />
+								<p:inputTextarea rows="12" cols="40" escape="false"
+									style="resize: none" autoResize="false"
+									value="#{testcaseView.editselectedTestcase.comments}">
+
+								</p:inputTextarea>
+							</p:panelGrid>
+						</p:outputPanel>
+						<f:facet name="footer">
+							<p:commandButton type="submit" update=":form:TestcaseTable"
+								action="#{testcaseView.onClickSave}" value="Save"
+								icon="ui-icon-check" />
+						</f:facet>
+
+					</p:panelGrid>
+					<!--   </ui:repeat> -->
+				</p:outputPanel>
+			</p:dialog>
+
+
+			<p:dialog header="Test Case Detailed View"
+				widgetVar="viewTestcaseDialog" style="width:1300px;height:400px"
+				resizable="false">
+				<p:outputPanel id="viewTestcases">
+					<!--    <ui:repeat value="#{testcaseView.selectedTestcases}" var="testcases"> -->
+					<p:panelGrid columns="2" 
+						rendered="#{not empty testcaseView.selectedTestcase}"
+						styleClass="viewMyDataTableStyle"
+						style="width:1250px;height:400px;border:1px solid">
+						<f:facet name="header">
+                    Case Details
+                </f:facet>
+
+						<p:outputPanel id="viewTest"
+							style="width:1250px;height:650px;overflow:auto;padding:10px;">
+
+							<p:accordionPanel style="margin-top:20px">
+								<p:tab title="Test Case ID / Name">
+									<p:panelGrid columns="1"
+										columnClasses="ui-grid-col-0,ui-grid-col-10" layout="grid"
+										styleClass="ui-panelgrid-blank">
+										<h:outputText style="white-space: pre-wrap;" escape="false"
+											value=" #{testcaseView.selectedTestcase.testcaseIdpk} / #{testcaseView.selectedTestcase.test_Case_ID}" />
+									</p:panelGrid>
+								</p:tab>
+								<p:tab title="Scenario">
+									<p:panelGrid columns="1"
+										columnClasses="ui-grid-col-0,ui-grid-col-10" layout="grid"
+										styleClass="ui-panelgrid-blank">
+										<h:outputText style="white-space: pre-wrap;" escape="false"
+											value="#{testcaseView.selectedTestcase.scenario}" />
+									</p:panelGrid>
+								</p:tab>
+								<p:tab title="Test Description">
+									<p:panelGrid columns="1"
+										columnClasses="ui-grid-col-0,ui-grid-col-10" layout="grid"
+										styleClass="ui-panelgrid-blank">
+										<h:outputText style="white-space: pre-wrap;" escape="false"
+											value="#{testcaseView.selectedTestcase.test_Case_Description}" />
+									</p:panelGrid>
+								</p:tab>
+								<p:tab title="Test Data">
+									<p:panelGrid columns="1"
+										columnClasses="ui-grid-col-0,ui-grid-col-10" layout="grid"
+										styleClass="ui-panelgrid-blank">
+										<h:outputText style="white-space: pre-wrap;" escape="false"
+											value="#{testcaseView.selectedTestcase.test_data}" />
+									</p:panelGrid>
+								</p:tab>
+								<p:tab title="Expected Result">
+									<p:panelGrid columns="1"
+										columnClasses="ui-grid-col-0,ui-grid-col-10" layout="grid"
+										styleClass="ui-panelgrid-blank">
+										<h:outputText style="white-space: pre-wrap;" escape="false"
+											value="#{testcaseView.selectedTestcase.expected_result}" />
+									</p:panelGrid>
+								</p:tab>
+								<p:tab title="Other Details">
+									<p:panelGrid columns="2"
+										columnClasses="ui-grid-col-0,ui-grid-col-10" layout="grid"
+										styleClass="ui-panelgrid-blank">
+
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="Test Case Status:" />
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="#{testcaseView.selectedTestcase.status}" />
+
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="Component:" />
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="#{testcaseView.selectedTestcase.component}" />
+
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="Module:" />
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="#{testcaseView.selectedTestcase.module}" />
+
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="Requirement Reference:" />
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="#{testcaseView.selectedTestcase.reference}" />
+
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="Dependent Test Cases:" />
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="#{testcaseView.selectedTestcase.dependent_test_cases}" />
+
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="Level:" />
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="#{testcaseView.selectedTestcase.level}" />
+
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="Test Case Flow:" />
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="#{testcaseView.selectedTestcase.test_Case_Flow}" />
+
+
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="Entity Type:" />
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="#{testcaseView.selectedTestcase.title}" />
+
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="Tester:" />
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="#{testcaseView.selectedTestcase.tester}" />
+
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="TestingType:" />
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="#{testcaseView.selectedTestcase.testingType}" />
+
+
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="Created_Date:" />
+										<h:outputText id="view_Created_Date"
+											value="#{testcaseView.selectedTestcase.created_Date}"
+											pattern="MM/dd/yyyy HH:mm:ss" />
+
+										<h:outputText style="    overflow-wrap: break-word;"
+											value="Last Update Date::" />
+										<h:outputText id="view_last_Updated_dt"
+											value="#{testcaseView.selectedTestcase.last_Updated_dt}"
+											pattern="MM/dd/yyyy HH:mm:ss" />
+
+
+
+									</p:panelGrid>
+								</p:tab>
+
+								<p:tab title="Comments">
+									<p:panelGrid columns="1"
+										columnClasses="ui-grid-col-0,ui-grid-col-10" layout="grid"
+										styleClass="ui-panelgrid-blank">
+										<h:outputText style="white-space: pre-wrap;" escape="false"
+											value="#{testcaseView.selectedTestcase.comments}" />
+									</p:panelGrid>
+								</p:tab>
+							</p:accordionPanel>
+							<!-- <p:panelGrid columns="2" styleClass="MyDataTableStyle1"
+								style="width:1200px;height:600px;padding:10px;">
+								<p:column style="width:20%">
+								ID:
+								</p:column>
+								<p:column style="width:80%">
+									<h:outputText
+										style="text-overflow:scroll; overflow:hidden; white-space:nowrap; width:100px; display:block;"
+										value="#{testcaseView.selectedTestcase.testcaseIdpk}" />
+								</p:column>
+								<h:outputLabel value="Test Case Name:" />
+								<h:outputLabel
+									value="#{testcaseView.selectedTestcase.test_Case_ID}" />
+								<h:outputLabel value="ScenarioID:" />
+								<h:outputLabel
+									value="#{testcaseView.selectedTestcase.scenarioID}" />
+								<h:outputLabel value="Scenario:" />
+								<h:outputLabel value="#{testcaseView.selectedTestcase.scenario}" />
+								<h:outputLabel value="Test Description:" />
+								<h:outputLabel
+									value="#{testcaseView.selectedTestcase.test_Case_Description}" />
+
+								<h:outputLabel value="Test Data:" />
+								<h:outputLabel
+									value="#{testcaseView.selectedTestcase.test_data}" />
+								<h:outputLabel value="Expected Result:" />
+								<h:outputLabel
+									value="#{testcaseView.selectedTestcase.expected_result}" />
+
+
+
+							</p:panelGrid> -->
+
+							<!-- <p:panelGrid columns="4" styleClass="MyDataTableStyle2"
+								style="width:1200px;height:650px;padding:10px 10px 10px 10px;">
+
+								<h:outputLabel value="Test_Case_Flow:" />
+								<h:outputLabel
+									value="#{testcaseView.selectedTestcase.test_Case_Flow}" />
+								<h:outputLabel value="Status:" />
+								<h:outputLabel value="#{testcaseView.selectedTestcase.status}" />
+
+								<h:outputLabel value="Model :" />
+								<h:outputLabel value="#{testcaseView.selectedTestcase.model}" />
+
+								<h:outputLabel value="Component:" />
+								<h:outputLabel
+									value="#{testcaseView.selectedTestcase.component}" />
+
+								<h:outputLabel value="Dependent test cases:" />
+								<h:outputLabel
+									value="#{testcaseView.selectedTestcase.dependent_test_cases}" />
+
+
+
+								<h:outputLabel value="Module:" />
+								<h:outputLabel value="#{testcaseView.selectedTestcase.module}" />
+
+								<h:outputLabel value="Level :" />
+								<h:outputLabel value="#{testcaseView.selectedTestcase.level}" />
+
+								<h:outputLabel value="Entity Type:" />
+								<h:outputLabel value="#{testcaseView.selectedTestcase.title}" />
+
+
+								<h:outputLabel value="Tester:" />
+								<h:outputLabel value="#{testcaseView.selectedTestcase.tester}" />
+
+								<h:outputLabel value="TestingType:" />
+								<h:outputLabel
+									value="#{testcaseView.selectedTestcase.testingType}" />
+
+								<h:outputLabel value="Reference:" />
+								<h:outputLabel
+									value="#{testcaseView.selectedTestcase.reference}" />
+
+
+
+
+								<h:outputLabel value="Created Date:" />
+								<h:outputText id="view_Created_Date"
+									value="#{testcaseView.selectedTestcase.created_Date}"
+									pattern="MM/dd/yyyy HH:mm:ss" />
+
+								<h:outputLabel value="Last Update Date:" />
+								<h:outputText id="view_last_Updated_dt"
+									value="#{testcaseView.selectedTestcase.last_Updated_dt}"
+									pattern="MM/dd/yyyy HH:mm:ss" />
+								<h:outputLabel value="Comments" />
+								<h:outputText value="#{testcaseView.selectedTestcase.comments}" />
+							</p:panelGrid> -->
+						</p:outputPanel>
+
+
+						<!-- 	<h:outputLabel value="SNO:" />
+						<h:outputText style="width:120px"
+							value="#{testcaseView.selectedTestcase.testcaseIdpk}" />
+
+						<h:outputLabel value="tester" />
+						<h:outputLabel value="#{testcaseView.selectedTestcase.tester}" />
+
+						<h:outputLabel value="TC Id" />
+						<h:outputText style="width:120px"
+							value="#{testcaseView.selectedTestcase.expected_result}" />
+
+						<h:outputLabel value="Status" />
+						<h:outputText value="#{testcaseView.selectedTestcase.status}">
+
+						</h:outputText>
+						<h:outputLabel value="DefectID" />
+						<h:outputFormat
+							value="#{testcaseView.selectedTestcase.test_Case_Flow}">
+
+						</h:outputFormat>
+						<h:outputLabel value="BuildNo" />
+						<h:outputText value="#{testcaseView.selectedTestcase.reference}">
+						</h:outputText>
+						<h:outputLabel value="Created Date" />
+						<h:outputText id="datetime"
+							value="#{testcaseView.selectedTestcase.created_Date}"
+							pattern="MM/dd/yyyy HH:mm:ss" />
+						 <p:calendar id="datetime" maxdate="#{testcaseView.todatdt}" value="#{testcaseView.selectedTestcase.created_Date}" pattern="MM/dd/yyyy HH:mm:ss" />
+
+						<h:outputLabel value="Comments" />
+						<h:outputFormat id="comments" escape="false"
+							value="#{testcaseView.selectedTestcase.comments}">
+
+						</h:outputFormat> -->
+						<f:facet name="footer">
+						Test Case View --$@TCM 
+							<!-- <p:commandButton type="submit" update=":form:TestcaseTable"
+								action="#{testcaseView.onClickSave}" value="Save"
+								icon="ui-icon-check" /> -->
+						</f:facet>
+					</p:panelGrid>
+					<!--   </ui:repeat> -->
+				</p:outputPanel>
+			</p:dialog>
+
+
+			<br />
+
+		</h:form>
+	</ui:define>
+</ui:composition>

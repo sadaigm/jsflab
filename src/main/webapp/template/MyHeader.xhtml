@@ -1,0 +1,26 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:p="http://primefaces.org/ui"
+xmlns:f="http://java.sun.com/jsf/core"  
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+                <f:loadBundle basename="com.bun.Bundle" var="dynamic_variable"/>
+                <h:form>
+               <p:growl id="messages"/>
+ 
+    <p:menubar>
+    <p:menuitem value="Home"  url="#{navigatePage.TEST_HOME}" icon="ui-icon-home" />
+    <p:menuitem value="Setting"  url="http://www.infotrellis.com"  icon="ui-icon-wrench" />
+    <p:menuitem value="Help"  url="http://www.infotrellis.com" icon="ui-icon-help"  />
+    <p:menuitem value="About #{dynamic_variable.CompanyName}" style="font-weight: bolder;" url="http://www.infotrellis.com" icon="ui-icon-info" />
+ <f:facet name="options">
+ 
+ 			<h:outputText  style="margin-right:10px;font-size: large;font-weight: bolder;" value="Hi! #{login.user}"  />
+ 			
+            <p:commandButton action="#{login.logout}"  type="submit" value="Logout" icon="ui-icon-extlink" />
+        </f:facet>
+    </p:menubar>
+  
+
+</h:form>
+</ui:composition>
+

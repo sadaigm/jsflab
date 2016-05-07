@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="templates/template.xhtml">
+	
+	<ui:define name="content">
+	<b:panel>Welcome sadai</b:panel>
+	<h3>Welcome to Test Management Framework</h3>
+	
+	<b:panel title="Panel Title - Primary" look="primary">
+  	<h:outputText>	<h:link outcome="login" value="#{msg.Login}"/></h:outputText>
+<h:outputText>	<h:link outcome="Home" value="#{msg.temp}"/></h:outputText>
+<h:outputText>	<h:link outcome="boot" value="boot home"/></h:outputText>
+<h:outputText>	<h:link  outcome="/ui/Mail" value="Mail"/></h:outputText>
+<h:outputText>	<h:link  outcome="/ui/TestRunner" value="TestRunner"/></h:outputText>
+<h:outputText>	<h:link  outcome="/ui/TestRunner2" value="TestRunner2"/></h:outputText>
+<h:outputText>	<h:link  outcome="/ui/AddTestRunner" value="AddTestRunner"/></h:outputText>
+<h:outputText>	<h:link  outcome="Bootfaces" value="Bootfaces"/></h:outputText>
+<h:outputText>	<h:link  outcome="temp" value="temp"/></h:outputText>
+	</b:panel>
+		<h:panelGrid columns="1" cellpadding="5" >
+		<h:link outcome="login" value="#{msg.Login}"/>
+		
+		<h:link outcome="Home" value="#{msg.temp}"/>
+		<h:link outcome="boot" value="boot home"/>
+		<h:link  outcome="/ui/Mail" value="Mail"/>
+		<h:link  outcome="/ui/TestRunner" value="TestRunner"/>
+		<h:link  outcome="/ui/TestRunner2" value="TestRunner2"/>
+		<h:link  outcome="/ui/AddTestRunner" value="AddTestRunner"/>
+		<h:link  outcome="Bootfaces" value="Bootfaces"/>
+		<h:link  outcome="temp" value="temp"/>
+    </h:panelGrid>
+	</ui:define>
+</ui:composition>

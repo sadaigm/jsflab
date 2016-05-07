@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/MyTemplate.xhtml">
+	<ui:define name="metadata">
+	</ui:define>
+    <ui:define name="content">                         
+        <h1 class="page-header "> <i class="fa fa-tachometer"></i>Add Execution Details</h1>
+   
+    <h:form id="form">     
+           <p:growl autoUpdate="true"/>
+   
+     <h:panelGrid columns="3" style="text-align:right;">
+           
+          <p:commandButton id="BackTestRun" immediate="true" value="Back" action="#{runnerController.ViewCreated}"  icon="ui-icon-carat-1-w" />
+          
+         </h:panelGrid>
+    <p:accordionPanel multiple="true">
+	
+        <p:tab title="Add">
+            <h:panelGrid id="grid" columns="3" cellpadding="5">
+            
+             <!-- <h:outputLabel for="ModuleName" value="ModuleName:*" />
+            <p:inputText id="ModuleName" value="" label="ModuleName" required="true"/>
+            <p:message for="ModuleName" /> -->
+           
+            <h:outputLabel for="TestCaseID" value="TestCaseID:*"/>
+            <p:inputText id="TestCaseID" value="#{runnerController.selected.testCaseId}" label="Test Case ID" required="true"/>
+            <p:message for="TestCaseID"/>
+            
+             <h:outputLabel for="Status" value="Status:*" />
+            <p:inputText id="Status" value="#{runnerController.selected.status}" label="Task Status" required="true"/>
+            <p:message for="Status" />
+            
+             <h:outputLabel for="DefectID" value="DefectID:*"/>
+            <p:inputText id="DefectID" value="#{runnerController.selected.defectid}" label="DefectID" required="true"/>
+            <p:message for="DefectID"/>
+            
+            <h:outputLabel for="TesterName" value="Executor Name:*" />
+            <p:inputText id="TesterName" value="#{runnerController.selected.tester}" label="Executor Name" required="true"/>
+            <p:message for="TesterName" />
+			
+			
+			
+			<h:outputLabel for="Build_No" value="Build_No:*" />
+            <p:inputText id="Build_No" value="#{runnerController.selected.buildno}" label="Build_No" required="true"/>
+            <p:message for="Build_No" />
+             <h:outputLabel value="Executed Date" />
+                  <p:calendar id="Executeddate" maxdate="#{ExecView.todatdt}" value="#{ExecView.selectedRunner.executeddate}" pattern="MM/dd/yyyy HH:mm:ss" />
+                <p:message for="Executeddate" />
+            <h:outputLabel for="ExecutorComments" value="Comments:*" />
+             
+            <p:inputTextarea id="ExecutorComments" rows="12" cols="40"  style="resize: none" autoResize="false"  value="#{runnerController.selected.comments}" label="Comments"/>
+            <p:message for="ExecutorComments" />
+			
+			<f:facet name="footer">
+			<p:commandButton type="submit" update="grid" action="#{runnerController.AddNewExecLog}" value="Save" icon="ui-icon-disk"></p:commandButton>
+			
+			</f:facet>
+			</h:panelGrid>
+        </p:tab>
+       
+       
+    </p:accordionPanel>
+ </h:form>
+ 
+         </ui:define>
+</ui:composition>        

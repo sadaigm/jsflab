@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"  
+                xmlns:h="http://java.sun.com/jsf/html"  
+                xmlns:f="http://java.sun.com/jsf/core"  
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/templates/default/main.xhtml">
+    <ui:define name="content">                        
+        <h1 class="page-header "> <i class="fa fa-tachometer"></i> Test Runner</h1>
+        <h:form id="form">           
+    <p:growl id="msgs" showDetail="true" />
+    <h3>Log Test Execution</h3>
+    <h:form id="form">           
+    <p:growl id="msgs" showDetail="true" />
+    
+    <p:accordionPanel multiple="true">
+	 <p:ajax event="tabChange" listener="#{ChangeNotificationBean.onTabChange}" update=":form:msgs" />
+        <p:ajax event="tabClose" listener="#{ChangeNotificationBean.onTabClose}" update=":form:msgs" />
+        <p:tab title="Test Case Details">
+            <h:panelGrid columns="3" cellpadding="5">
+            <h:outputLabel for="TestCaseID" value="TestCaseID: (@Size(min=2,max=5))" />
+            <p:inputText id="TestCaseID" value="" label="TestCaseID"/>
+            <p:message for="TestCaseID" />
+			
+			 <h:outputLabel for="TestCaseStatus" value="TestCaseStatus: (@Size(min=2,max=5))" />
+            <p:inputText id="TestCaseStatus" value="" label="TestCaseStatus"/>
+            <p:message for="TestCaseStatus" />
+			
+			<h:outputLabel for="Build_No" value="Build_No: (@Size(min=2,max=5))" />
+            <p:inputText id="Build_No" value="" label="Build_No"/>
+            <p:message for="Build_No" />
+			
+			<h:outputLabel for="Defect_Id" value="Defect_Id: (@Size(min=2,max=5))" />
+            <p:inputText id="Defect_Id" value="" label="Defect_Id"/>
+            <p:message for="Defect_Id" />
+			</h:panelGrid>
+        </p:tab>
+        <p:tab title="Execution Details">
+            <h:panelGrid columns="2" cellpadding="10">
+                 <f:facet name="header">
+                    Test Comments
+                </f:facet>
+                <br/>
+                  <p:inputText id="TestComments" value="#{beanValidationView.name}" label="TestComments"/>
+            </h:panelGrid>
+        </p:tab>
+       
+    </p:accordionPanel>
+ </h:form>
+ </h:form>
+         </ui:define>
+</ui:composition>        

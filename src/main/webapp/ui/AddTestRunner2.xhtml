@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/MyTemplate.xhtml">
+	<ui:define name="metadata">
+	</ui:define>
+    <ui:define name="content">                         
+        <h1 class="page-header "> <i class="fa fa-tachometer"></i> Test Runner Details</h1>
+    
+    <h:form id="form">           
+    <p:growl id="msgs" autoUpdate="true" showDetail="true" />
+    
+    <p:accordionPanel multiple="true">
+	 <p:ajax event="tabChange" listener="#{ChangeNotificationBean.onTabChange}" update=":form:msgs" />
+        <p:ajax event="tabClose" listener="#{ChangeNotificationBean.onTabClose}" update=":form:msgs" />
+        <p:tab title="Create New Test Run">
+            <h:panelGrid columns="3" cellpadding="5">
+            <h:outputLabel for="ProjectName" value="ProjectName:*"/>
+            <p:inputText id="ProjectName" value="#{testRunController.selected.projectName}" label="ProjectName" required="true"/>
+            <p:message for="ProjectName"/>
+            
+            <h:outputLabel for="Name" value="Name:*" />
+            <p:inputText id="Name" value="#{testRunController.selected.name}" label="Run Name" required="true"/>
+            <p:message for="Name" />
+			
+			 <h:outputLabel for="ModuleName" value="ModuleName:*" />
+            <p:inputText id="ModuleName" value="#{testRunController.selected.moduleName}" label="ModuleName" required="true"/>
+            <p:message for="ModuleName" />
+			
+			<h:outputLabel for="Build_No" value="Build_No:*" />
+            <p:inputText id="Build_No" value="#{testRunController.selected.buildNo}" label="Build_No" required="true"/>
+            <p:message for="Build_No" />
+			
+			<f:facet name="footer">
+			<p:commandButton type="submit" action="#{testRunController.AddNewMod}" value="Save" icon="ui-icon-disk"></p:commandButton>
+			</f:facet>
+			</h:panelGrid>
+        </p:tab>
+       
+       
+    </p:accordionPanel>
+ </h:form>
+ 
+         </ui:define>
+</ui:composition>        

@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    >
+    
+<h:head>
+
+    <title>Login Page</title>
+    <h:outputStylesheet library="css" name="Customtheme1.css"  />
+</h:head>
+<h:body>
+<p:tooltip />
+ <p:messages id="messages" autoUpdate="true" closable="true" />
+<div class="wrapper">
+    <h:form class="form-signin">
+        <h2 class="form-signin-heading">Please Login</h2>
+         
+       <h:panelGrid columns="2" id="matchGrid" cellpadding="5"> 
+      
+       <h:outputLabel for="username" value="Username:" />
+        <h:inputText label="Username" id="username" name="username" value="#{login.user}"  class="form-control" required="true"></h:inputText>
+       
+        
+         <h:outputText class="form-control" value="Password:"></h:outputText>
+        <h:inputSecret label="Password"  id="password" name="password" value="#{login.pwd}" class="form-control" required="true"></h:inputSecret>
+       
+       
+        <h:outputText class="form-control" value="Role:"></h:outputText>
+        <h:inputText label="Role" id="role" name="role" value="#{login.role}"  class="form-control" required="true"></h:inputText>
+       
+       
+         </h:panelGrid>
+        <h:commandButton action="#{login.validateUsernamePassword}"
+            value="Login"></h:commandButton>
+    </h:form>
+</div>
+</h:body>
+</html>

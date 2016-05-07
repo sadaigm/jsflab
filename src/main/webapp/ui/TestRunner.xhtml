@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"  
+                xmlns:h="http://java.sun.com/jsf/html"  
+                xmlns:f="http://java.sun.com/jsf/core"  
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/templates/default/main.xhtml">
+    <ui:define name="content">                        
+        <h1 class="page-header "> <i class="fa fa-tachometer"></i> Test Runner</h1>
+<h:form id="form">
+    <p:dataTable var="car" value="#{runnerLazyView.lazyModel}" paginator="true" rows="10"
+                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{runnerLazyView.selectedRunner}" id="carTable" lazy="true"
+                 rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px; background-color:#6732;">
+        <p:ajax event="rowSelect" listener="#{runnerLazyView.onRowSelect}" update=":form:carDetail" oncomplete="PF('carDialog').show()" />
+        <p:column headerText="Id">
+            <h:outputText value="#{car.runnerId}" />
+        </p:column>
+        <p:column headerText="Year" sortBy="#{car.tester}" >
+            <h:outputText value="#{car.tester}" />
+        </p:column>
+        <p:column headerText="Brand" sortBy="#{car.testCaseId}" filterBy="#{car.testCaseId}" filterMatchMode="contains"  >
+            <h:outputText value="#{car.testCaseId}" />
+        </p:column>
+        <p:column headerText="Color" sortBy="#{car.status}" >
+            <h:outputText value="#{car.status}" />
+        </p:column>
+    </p:dataTable>
+ 
+    <p:dialog header="Car Detail" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="carDetail" style="text-align:center;">
+            <p:panelGrid  columns="2" rendered="#{runnerLazyView.selectedRunner}" columnClasses="label,value">
+                <f:facet name="header">
+                    <h:outputText value="TestRunner" />
+                </f:facet>
+ 
+                <h:outputText value="Id:" />
+                <h:outputText value="#{runnerLazyView.selectedRunner.runnerId}" />
+ 
+                <h:outputText value="tester" />
+                <h:outputText value="#{runnerLazyView.selectedRunner.tester}" />
+ 
+                <h:outputText value="Color:" />
+                <h:outputText value="#{runnerLazyView.selectedRunner.testCaseId}"/>
+ 
+                <h:outputText value="Price:" />
+                <h:outputText value="#{runnerLazyView.selectedRunner.status}">
+                   
+                </h:outputText>
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
+</h:form>
+    </ui:define>
+</ui:composition>        

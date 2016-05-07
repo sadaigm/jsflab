@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/MyTemplate.xhtml">
+	<ui:define name="metadata">
+	</ui:define>
+    <ui:define name="content">                         
+        <h1 class="page-header "> <i class="fa fa-tachometer"></i>Add Testcase Details</h1>
+   
+    <h:form id="form">     
+           <p:growl autoUpdate="true"/>
+   
+     <h:panelGrid columns="3" style="text-align:right;">
+           
+          <p:commandButton id="BackTestRun" immediate="true" value="Back" action="#{testcaseController.ViewTestCases}"  icon="ui-icon-carat-1-w" />
+          
+         </h:panelGrid>
+    
+	
+        <p:tab title="Add">
+            <h:panelGrid id="grid" columns="3" cellpadding="5">
+            
+             <!-- <h:outputLabel for="ModuleName" value="ModuleName:*" />
+            <p:inputText id="ModuleName" value="" label="ModuleName" required="true"/>
+            <p:message for="ModuleName" /> -->
+           
+            <h:outputLabel for="addTestCaseID" value="Test Case Name:*"/>
+            <p:inputTextarea rows="2" cols="125"  escape="false"  style="resize: none" autoResize="false" id="addTestCaseID" value="#{testcaseController.selected.test_Case_ID}" label="Test Case ID" required="true"/>
+            <p:message for="addTestCaseID"/>
+            
+            <h:outputLabel for="addScenario" value="Scenario:"/>
+            <p:inputTextarea rows="2" cols="125"  escape="false"  style="resize: none" autoResize="false" id="addScenario" value="#{testcaseController.selected.scenario}" label="Scenario" />
+            <p:message for="addScenario"/>
+            
+              <h:outputLabel for="test_Case_Description" value="Test Case Description:*"/>
+            <p:inputTextarea rows="8" cols="125"  escape="false"  style="resize: none" autoResize="false" id="test_Case_Description" value="#{testcaseController.selected.test_Case_Description}" label="test_Case_Description" required="true"/>
+            <p:message for="test_Case_Description"/>
+            
+            <h:outputLabel for="add_test_data" value="Test Data:*"/>
+            <p:inputTextarea rows="12" cols="125"  escape="false"  style="resize: none" autoResize="false" id="add_test_data" value="#{testcaseController.selected.test_data}" label="Test Data" required="true"/>
+            <p:message for="add_test_data"/>
+            
+            <h:outputLabel for="add_expected_result" value="Expected Result:*"/>
+            <p:inputTextarea rows="15" cols="125"  escape="false"  style="resize: none" autoResize="false" id="add_expected_result" value="#{testcaseController.selected.expected_result}" label="Expected Result" required="true"/>
+            <p:message for="add_expected_result"/>
+            
+              <h:outputLabel for="add_test_Case_Flow" value="Test Case Flow:" />
+              <p:inputText  id="add_test_Case_Flow" value="#{testcaseController.selected.test_Case_Flow}" label="Test Case Flow" />
+            <p:message for="add_test_Case_Flow" />
+            
+            
+            <h:outputLabel for="add_status" value="Status:" />
+            <p:inputText  id="add_status" value="#{testcaseController.selected.status}" label="Status" />
+            <p:message for="add_status" />
+            
+            <h:outputLabel for="add_model" value="Model:" />
+            <p:inputText  id="add_model" value="#{testcaseController.selected.model}" label="Model" />
+            <p:message for="add_model" />
+            
+            <h:outputLabel for="add_reference" value="Reference:" />
+            <p:inputTextarea rows="2" cols="125"  escape="false"  style="resize: none" autoResize="false" id="add_reference" value="#{testcaseController.selected.reference}" label="Reference"/>
+            <p:message for="add_reference" />
+            
+            <h:outputLabel for="add_component" value="Component:" />
+            <p:inputText  id="add_component" value="#{testcaseController.selected.component}" label="Component" />
+            <p:message for="add_component" />
+            
+            <h:outputLabel for="add_dependent_test_cases" value="Dependent Test Cases:" />
+            <p:inputTextarea rows="2" cols="125"  escape="false"  style="resize: none" autoResize="false" id="add_dependent_test_cases" value="#{testcaseController.selected.dependent_test_cases}" label="Dependent Test Cases" />
+            <p:message for="add_dependent_test_cases" />
+            
+           
+            <h:outputLabel for="add_module" value="Module:" />
+            <p:inputText  id="add_module" value="#{testcaseController.selected.module}" label="Module"/>
+            <p:message for="add_module" />
+           
+           
+            <h:outputLabel for="add_testingType" value="TestingType:" />
+            <p:inputText id="add_testingType" value="#{testcaseController.selected.testingType}" label="Testing Type" />
+            <p:message for="add_testingType" />
+            
+            <h:outputLabel for="title" value="Entity Type:" />
+            <p:inputText id="title" value="#{testcaseController.selected.title}" label="title" />
+            <p:message for="title" />
+           
+            
+            <h:outputLabel for="add_level" value="Level:" />
+            <p:inputText id="add_level" value="#{testcaseController.selected.level}" label="Level" />
+            <p:message for="add_level" />
+			
+			
+			
+			<h:outputLabel for="tester" value="tester:" />
+            <p:inputText id="tester" value="#{testcaseController.selected.tester}" label="tester" />
+            <p:message for="tester" />
+             
+            <h:outputLabel for="ExecutorComments" value="Comments:" />
+             
+            <p:inputTextarea id="ExecutorComments" rows="12" cols="125"  style="resize: none" autoResize="false"  value="#{testcaseController.selected.comments}" label="Comments"/>
+            <p:message for="ExecutorComments" />
+			
+			<f:facet name="footer">
+			<p:commandButton type="submit" update="grid" action="#{testcaseController.AddNewTestcase}" value="Save" icon="ui-icon-disk"></p:commandButton>
+			
+			</f:facet>
+			</h:panelGrid>
+        </p:tab>
+       
+       
+    
+ </h:form>
+ 
+         </ui:define>
+</ui:composition>        

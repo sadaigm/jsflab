@@ -1,0 +1,146 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/MyTemplate.xhtml">
+	<ui:define name="metadata">
+	</ui:define>
+	
+    <ui:define name="content">                        
+      <h1 class="page-header "> <i class="fa fa-tachometer"></i>Over All Execution Summary</h1>  
+      <h:form id="form" >
+       <p:growl id="msgs" autoUpdate="true" showDetail="true" />
+      <h:outputStylesheet>
+    
+     
+   .MyDataTableStyle table{
+     font-size:smaller;
+    
+     }
+     
+      </h:outputStylesheet>
+        <br/>
+        
+         <h:panelGrid columns="3" style="text-align:right;font-size: smaller;">
+          <p:commandButton id="ViewTestRun" type="submit" action="#{runnerController.ViewCreated}" value="View Executions"  style="float:right;width: auto;font-size: smaller; " icon="ui-icon-folder-collapsed" />
+             <p:commandButton id="AddModule" type="submit" action="#{runnerController.AddTestModule}" value="Add Test Module"  style="float:right;width: auto;font-size: smaller;  " icon="ui-icon-folder-collapsed" />
+        
+          
+       </h:panelGrid>
+ <h:panelGrid columns="4" style="text-align:right;font-size: smaller;">
+ 
+
+<h:commandLink>
+<h:outputText  value="PDF" />
+<p:dataExporter type="pdf" target="RunTable"  fileName="TestExecutionSummary_#{dtView.currentTimeStamp}"/>
+</h:commandLink>
+ 
+
+<h:commandLink>
+<h:outputText  value="XL" />
+<p:dataExporter type="xls" target="RunTable"  fileName="TestExecutionSummary_#{dtView.currentTimeStamp}"/>
+</h:commandLink>
+ 
+
+<h:commandLink>
+<h:outputText  value="XML" />
+<p:dataExporter type="xml" target="RunTable"  fileName="TestExecutionSummary_#{dtView.currentTimeStamp}"/>
+</h:commandLink>
+ 
+
+<h:commandLink>
+<h:outputText  value="CSV" />
+<p:dataExporter type="csv" target="RunTable"  fileName="TestExecutionSummary_#{dtView.currentTimeStamp}"/>
+</h:commandLink>
+
+ 
+</h:panelGrid>
+ <h:panelGrid columns="1"  styleClass="MyDataTableStyle" >
+         <p:dataTable var="testcases" value="#{dtView.runnerModel}" paginator="true" rows="10"  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+           rowsPerPageTemplate="5,10,15"  selectionMode="single" selection="#{dtView.selectedRunner}"  rowKey="#{testcases.runnerId}" id="RunTable"
+          widgetVar="runnerTable"  emptyMessage="No records found with given criteria" > 
+     <p:ajax event="rowSelect" listener="#{dtView.onRowSelect}" update=":form:carDetail" oncomplete="PF('carDialog').show()" />
+        
+  
+
+  
+  
+  
+<f:facet name="header" >
+
+              <h:outputText value="Search all fields:  " />
+                <p:inputText id="globalFilter" onkeyup="PF('runnerTable').filter()" style="width:200px;" placeholder="Enter keyword"/>
+              
+              <p:commandButton id="toggler" type="button" value="Columns"  style="float:right;font-size: smaller;" icon="ui-icon-calculator" />
+                <p:columnToggler datasource="RunTable" trigger="toggler" />
+             
+           
+        </f:facet>
+  <p:column headerText="RunnerId"  sortBy="#{testcases.runnerId}" filterBy="#{testcases.runnerId}" filterMatchMode="contains">
+  <h:outputText value="#{testcases.runnerId}"/>
+
+  </p:column>
+  <p:column headerText="Tester" sortBy="#{testcases.tester}" filterBy="#{testcases.tester}">
+  <h:outputText value="#{testcases.tester}"/>
+  </p:column>
+  <p:column headerText="TestCaseID" filterBy="#{testcases.testCaseId}" filterMatchMode="contains">
+  <h:outputText value="#{testcases.testCaseId}"/>
+  </p:column>
+  <p:column headerText="Status" filterBy="#{testcases.status}" filterMatchMode="contains">
+  <h:outputText value="#{testcases.status}"/>
+  </p:column>
+  <p:column headerText="date" filterBy="#{testcases.executeddate}" filterMatchMode="contains">
+  <h:outputText value="#{testcases.executeddate}"/>
+  </p:column>
+ 
+</p:dataTable>
+
+</h:panelGrid>
+
+
+<p:dialog header="Test Runner Details" widgetVar="carDialog" resizable="false" >
+        <p:outputPanel id="carDetail">
+            <p:panelGrid  columns="2" rendered="#{not empty dtView.selectedRunner}" styleClass="MyDataTableStyle" style="width:500px;height:400px">
+                <f:facet name="header">
+                    TestRunner
+                </f:facet>
+ 
+                <h:outputLabel value="Id:" />
+                <h:outputText value="#{dtView.selectedRunner.runnerId}" />
+ 
+                <h:outputLabel value="tester" />
+                <h:inputText value="#{dtView.selectedRunner.tester}" />
+ 
+                <h:outputLabel value="TC Id" />
+                <h:inputText value="#{dtView.selectedRunner.testCaseId}"/>
+ 
+                <h:outputLabel value="Status" />
+                <h:inputText value="#{dtView.selectedRunner.status}">
+                   
+                </h:inputText>
+                 <h:outputLabel value="DefectID" />
+                <h:inputText value="#{dtView.selectedRunner.defectid}">
+                   
+                </h:inputText>
+                 <h:outputLabel value="BuildNo" />
+                <h:inputText value="#{dtView.selectedRunner.buildno}">
+                     </h:inputText>
+                 <h:outputLabel value="Executed Date" />
+                  <p:calendar id="datetime" maxdate="#{dtView.todatdt}" value="#{dtView.selectedRunner.executeddate}" pattern="MM/dd/yyyy HH:mm:ss" />
+               
+                 <h:outputLabel value="Comments" />
+                <p:inputTextarea rows="12" cols="40"   style="resize: none" autoResize="false" value="#{dtView.selectedRunner.comments}">
+                   
+                </p:inputTextarea>
+                <f:facet name="footer">
+	 	 <p:commandButton type="submit" update=":form:RunTable" action="#{dtView.onClickSave}" value="Save" icon="ui-icon-check" />
+</f:facet>
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
+     <br/>
+
+        </h:form>  
+    </ui:define>
+</ui:composition>        

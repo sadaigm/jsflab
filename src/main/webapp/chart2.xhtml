@@ -1,0 +1,134 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ct="http://www.chartistjsf.org/charts"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/MyTemplate.xhtml">
+	<ui:define name="metadata">
+	</ui:define>
+    <ui:define name="content">  
+                        
+        <h1 class="page-header "> <i class="fa fa-tachometer"></i> Test Reports</h1>
+    
+    
+       
+        <h:form id="form1">
+     <h:panelGrid columns="4" style="width:15%">
+ 
+
+<h:commandLink>
+<h:outputText  value="PDF" />
+<p:dataExporter type="pdf" target="OverallSummary"  fileName="TestExecutionSummary_#{dtView.currentTimeStamp}"/>
+</h:commandLink>
+ 
+
+<h:commandLink>
+<h:outputText  value="XL" />
+<p:dataExporter type="xls" target="OverallSummary"  fileName="TestExecutionSummary_#{dtView.currentTimeStamp}"/>
+</h:commandLink>
+ 
+
+<h:commandLink>
+<h:outputText  value="XML" />
+<p:dataExporter type="xml" target="OverallSummary"  fileName="TestExecutionSummary_#{dtView.currentTimeStamp}"/>
+</h:commandLink>
+ 
+
+<h:commandLink>
+<h:outputText  value="CSV" />
+<p:dataExporter type="csv" target="OverallSummary"  fileName="TestExecutionSummary_#{dtView.currentTimeStamp}"/>
+</h:commandLink>
+</h:panelGrid>
+       
+      <p:panel id="OverallSummary" header="#{msg.OverallSummary}" toggleable="true" toggleSpeed="500"  widgetVar="panel1" style="margin-bottom:20px;">
+   
+        <p:ajax event="close" listener="#{panelView.onClose}" update="msgs" />
+        <p:ajax event="toggle" listener="#{panelView.onToggle}" update="msgs" />
+ 
+         <h:panelGrid columns="2" cellpadding="5" style="ma" >
+          
+            <ct:chart id="lineChart1" widgetVar="ba11" type="line" model="#{chartDataBean.lineModel}" style="margin-top:20px;width:500px;">
+	<p:ajax event="itemSelect" listener="#{chartDataBean.itemSelect}" update="lineChartMessage1" />
+	</ct:chart>
+	
+ 	<ct:chart id="barChart1"  type="bar" model="#{barChartDataBean.barChartModel}" style="margin-top:20px;width:500px;">
+	<p:ajax event="itemSelect" listener="#{barChartDataBean.barItemSelect}" update="barChartMessage1" />
+	</ct:chart>
+	<p:message id="lineChartMessage1" for="lineChart1" showDetail="true" />
+	<p:message id="barChartMessage1" for="barChart1" showDetail="true"/>
+
+ 
+        </h:panelGrid>
+ 
+       <!-- <f:facet name="options">
+            <p:menu>
+                <p:submenu label="Settings">
+                    <p:menuitem value="Toggle" url="#" icon="ui-icon-newwin" onclick="PF('panel1').toggle()" />
+                    <p:menuitem value="Remove" url="#" icon="ui-icon-close" onclick="PF('panel1').close()" />
+                </p:submenu>
+            </p:menu>
+        </f:facet> 
+         --> 
+    </p:panel>
+    
+    
+    
+    <!--  <p:panel id="MDMTestExecutionSummary" header="#{msg.MDMTestExecutionSummary}" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel2" style="margin-bottom:20px;"> -->
+     <p:panel id="MDMTestExecutionSummary" header="#{msg.MDMTestExecutionSummary}" toggleable="true"  toggleSpeed="500" widgetVar="panel2" style="margin-bottom:20px;">
+   
+        <p:ajax event="close" listener="#{panelView.onClose}" update="msgs" />
+        <p:ajax event="toggle" listener="#{panelView.onToggle}" update="msgs" />
+ 
+         <h:panelGrid columns="2" cellpadding="5" style="ma" >
+          
+            <ct:chart id="lineChart2" type="line" model="#{chartDataBean.lineModel}" style="margin-top:20px;width:500px;">
+	<p:ajax event="itemSelect" listener="#{chartDataBean.itemSelect}" update="lineChartMessage2" />
+	</ct:chart>
+	
+ 	<ct:chart id="pie1" type="pie" model="#{pieChartDataBean.pieChartModel}" style="width:500px;">
+	<p:ajax event="itemSelect" listener="#{pieChartDataBean.pieItemSelect}" update="pieMessage1" />
+</ct:chart>
+
+	<p:message id="lineChartMessage2" for="lineChart2" showDetail="true" />
+	<p:message id="pieMessage1" for="pie1" showDetail="true" />
+
+ 
+        </h:panelGrid>
+       
+    </p:panel>
+    
+    
+     <p:panel id="ETLTestExecutionSummary" header="#{msg.ETLTestExecutionSummary}" toggleable="true" toggleSpeed="500" widgetVar="panel3" style="margin-bottom:20px;">
+   
+        <p:ajax event="close" listener="#{panelView.onClose}" update="msgs" />
+        <p:ajax event="toggle" listener="#{panelView.onToggle}" update="msgs" />
+ 
+         <h:panelGrid columns="2" cellpadding="5" style="ma" >
+          
+            <ct:chart id="lineChart3" type="line" model="#{chartDataBean.lineModel}" style="margin-top:20px;width:500px;">
+	<p:ajax event="itemSelect" listener="#{chartDataBean.itemSelect}" update="lineChartMessage3" />
+	</ct:chart>
+	
+ 	<ct:chart id="barChart3" type="bar" model="#{barChartDataBean.barChartModel}" style="margin-top:20px;width:500px;">
+	<p:ajax event="itemSelect" listener="#{barChartDataBean.barItemSelect}" update="barChartMessage3" />
+	</ct:chart>
+	<p:message id="lineChartMessage3" for="lineChart3" showDetail="true" />
+	<p:message id="barChartMessage3" for="barChart3" showDetail="true"/>
+
+ 
+        </h:panelGrid>
+ 
+    </p:panel>
+    
+    
+      <p:growl for="msgs" id="msgs" showDetail="true" />
+      </h:form>
+      
+    
+        <hr/>
+     
+        
+    </ui:define>
+</ui:composition>        
+

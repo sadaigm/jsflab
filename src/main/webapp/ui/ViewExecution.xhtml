@@ -1,0 +1,147 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/MyTemplate.xhtml">
+	<ui:define name="metadata">
+	</ui:define>
+	
+    <ui:define name="content">                        
+        <h1 class="page-header "> <i class="fa fa-tachometer"></i>Today's Execution Summary</h1>
+      <h:form id="form" >
+      <h:outputStylesheet>
+    
+     
+   .MyDataTableStyle table{
+     font-size:smaller;
+    
+     }
+     
+      </h:outputStylesheet>
+        <br/>
+        
+         <h:panelGrid columns="3" style="text-align:right;">
+           
+          <p:commandButton id="NewExecutionTask" ajax="false"  type="submit" action="#{runnerController.prepareCreate}" value="New Execution"  style="float:right;" icon="ui-icon-document-b" />
+          <p:commandButton id="BackTestRun" ajax="false" type="submit" value="Back to Test Run" action="#{runnerController.ViewTestRunner}" style="float:right;" icon="ui-icon-carat-1-w" />
+          
+         </h:panelGrid>
+          <h:panelGrid columns="4">
+ 
+
+<h:commandLink>
+<h:outputText  value="PDF" />
+<p:dataExporter type="pdf" target="RunTableToday"  fileName="TestExecutionSummary_#{UtilMethod.currentTimeStamp}"/>
+</h:commandLink>
+ 
+
+<h:commandLink>
+<h:outputText  value="XL" />
+<p:dataExporter type="xls" target="RunTableToday"  fileName="TestExecutionSummary_#{UtilMethod.currentTimeStamp}"/>
+</h:commandLink>
+ 
+
+<h:commandLink>
+<h:outputText  value="XML" />
+<p:dataExporter type="xml" target="RunTableToday"  fileName="TestExecutionSummary_#{UtilMethod.currentTimeStamp}"/>
+</h:commandLink>
+ 
+
+<h:commandLink>
+<h:outputText  value="CSV" />
+<p:dataExporter type="csv" target="RunTableToday"  fileName="TestExecutionSummary_#{UtilMethod.currentTimeStamp}"/>
+</h:commandLink>
+
+ 
+</h:panelGrid>
+ <h:panelGrid columns="1"  styleClass="MyDataTableStyle" >
+         <p:dataTable var="execution" value="#{ExecView.runnerModel}" paginator="true" rows="10"  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+           rowsPerPageTemplate="5,10,15"  selectionMode="single" selection="#{ExecView.selectedRunner}"  rowKey="#{execution.runnerId}" id="RunTableToday"
+          widgetVar="runnerTable"  emptyMessage="No records found with given criteria" > 
+     <p:ajax event="rowSelect" listener="#{ExecView.onRowSelect}" update=":form:carDetail" oncomplete="PF('carDialog').show()" />
+        
+  
+
+  
+  
+  
+<f:facet name="header" >
+
+              <h:outputText value="Search all fields:  " />
+                <p:inputText id="globalFilter" onkeyup="PF('runnerTable').filter()" style="width:200px;" placeholder="Enter keyword"/>
+              
+              <p:commandButton id="toggler" type="button" value="Columns"  style="float:right;" icon="ui-icon-calculator" />
+                <p:columnToggler datasource="RunTableToday" trigger="toggler" />
+             
+           
+        </f:facet>
+  <p:column headerText="RunnerId"  sortBy="#{execution.runnerId}" filterBy="#{execution.runnerId}" filterMatchMode="contains">
+  <h:outputText value="#{execution.runnerId}"/>
+
+  </p:column>
+  <p:column headerText="Tester" sortBy="#{execution.tester}" filterBy="#{execution.tester}">
+  <h:outputText value="#{execution.tester}"/>
+  </p:column>
+  <p:column headerText="TestCaseID" filterBy="#{execution.testCaseId}" filterMatchMode="contains">
+  <h:outputText value="#{execution.testCaseId}"/>
+  </p:column>
+  <p:column headerText="Status" filterBy="#{execution.status}" filterMatchMode="contains">
+  <h:outputText value="#{execution.status}"/>
+  </p:column>
+  <p:column headerText="date">
+  <h:outputText value="#{execution.executeddate}"/>
+  </p:column>
+ 
+</p:dataTable>
+
+</h:panelGrid>
+
+
+<p:dialog header="Test Runner Details" widgetVar="carDialog" resizable="false" >
+<p:ajax event="close" update="RunTableToday"  listener="#{ExecView.loadEventTodayExecution}" />
+        <p:outputPanel id="carDetail">
+            <p:panelGrid  columns="2" rendered="#{not empty ExecView.selectedRunner}" styleClass="MyDataTableStyle" style="width:500px;height:400px">
+                <f:facet name="header">
+                    TestRunner
+                </f:facet>
+ 
+               <h:outputLabel value="Id:" />
+                <h:outputText value="#{ExecView.selectedRunner.runnerId}" />
+ 
+                <h:outputLabel value="tester" />
+                <h:inputText value="#{ExecView.selectedRunner.tester}" />
+ 
+                <h:outputLabel value="TC Id" />
+                <h:inputText value="#{ExecView.selectedRunner.testCaseId}"/>
+ 
+                <h:outputLabel value="Status" />
+                <h:inputText value="#{ExecView.selectedRunner.status}">
+                   
+                </h:inputText>
+                 <h:outputLabel value="DefectID" />
+                <h:inputText value="#{ExecView.selectedRunner.defectid}">
+                   
+                </h:inputText>
+                 <h:outputLabel value="BuildNo" />
+                <h:inputText value="#{ExecView.selectedRunner.buildno}">
+                  
+                </h:inputText>
+                  <h:outputLabel value="Executed Date" />
+                  <p:calendar id="datetime" maxdate="#{ExecView.todatdt}" value="#{ExecView.selectedRunner.executeddate}" pattern="MM/dd/yyyy HH:mm:ss" />
+               
+                 <h:outputLabel value="Comments" />
+                <p:inputTextarea rows="12" cols="40"   style="resize: none" autoResize="false" value="#{ExecView.selectedRunner.comments}">
+                   
+                </p:inputTextarea>
+                <f:facet name="footer">
+	 	 <p:commandButton type="submit" update=":form:RunTableToday" action="#{ExecView.onClickSave}" value="Save" icon="ui-icon-check" ajax="true" />
+</f:facet>
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
+     <br/>
+
+        </h:form>  
+    </ui:define>
+</ui:composition>        

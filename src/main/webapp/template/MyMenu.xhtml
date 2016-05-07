@@ -1,0 +1,43 @@
+
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+	<h:form>
+
+		<p:outputPanel id="menuPanel" layout="block" >
+				<p:menu autoSubmenuDisplay="true" style="width:210px;border-width:thin;font-size:small;padding:1px;" 
+					ajax="false" type="sliding" backLabel="#{msg['menu.back']}" toggleable="true" >
+					<p:submenu label="Design Phase" icon="ui-icon ui-icon-refresh"  >
+						<p:menuitem value="TestCases"
+							url="#{navigatePage.TESTCASE_URL}" style="font-size:small" />
+						<p:menuitem value="Defects" 
+							url="/pages/page2.xhtml" />
+					</p:submenu>
+					<p:submenu label="Execution Phase" icon="ui-icon ui-icon-refresh">
+						<p:menuitem value="Test Runner"
+							url="#{navigatePage.TEST_RUNNER}"/>
+						<p:menuitem value="Test Report" 
+							url="/pages/page4.xhtml" />
+					</p:submenu>
+		<p:submenu label="Report Phase" icon="ui-icon ui-icon-refresh">
+						<p:menuitem value="Overall Report" url="#{navigatePage.TEST_REPORT}"
+							/>
+						<p:menuitem value="Execution Report"
+							url="/pages/page3.xhtml" />
+						<p:menuitem value="Defect Report" 
+							url="/pages/page4.xhtml" />
+					</p:submenu>
+				</p:menu>
+		</p:outputPanel>
+		
+
+	</h:form>
+</ui:composition>
+
+

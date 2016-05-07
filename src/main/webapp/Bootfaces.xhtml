@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+    <title>Facelet Title</title>
+</h:head>
+<h:body>
+    
+    
+    <h:form>  
+    
+
+<b:panel look="primary" title="Sidebar">
+    <b:listLinks>
+        <b:navLink header="BootsFaces" />
+        <b:navLink href="http://www.bootsfaces.net" value="BootsFaces"
+                   icon="globe" iconAlign="right"/>
+        <b:navLink></b:navLink>
+        <b:navLink header="Bootstrap"/>
+        <b:navLink href="http://getbootstrap.com/components/#navbar" value="Bootstrap" icon="link"></b:navLink>
+        <b:navLink></b:navLink>
+        <b:navLink header="Preview"/>
+        <b:navLink value="Labels and Badges" outcome="/bootstrap/labelsbadge"
+                   icon="tag" iconAlign="right"/>
+        <b:navLink value="Slider" outcome="/jquery-ui/slider" iconAwesome="sliders" />
+    </b:listLinks>
+ </b:panel>
+
+</h:form>
+</h:body>
+</html>

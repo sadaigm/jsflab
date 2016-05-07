@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>Mail Example</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:panelGrid columns="2">
+                
+                To:
+                <h:panelGroup>
+                    <h:inputText size="15" id="name"
+                                 value="#{clientBean.recipient}"
+                                 required="true"
+                                 requiredMessage="Required"/>
+                    <h:message for="name" style="color:red"/>
+                </h:panelGroup>
+                
+                Subject:
+                <h:panelGroup>
+                    <h:inputText size="30" id="subject"
+                                 value="#{clientBean.subject}"
+                                 required="true"
+                                 requiredMessage="Required"/>
+                    <h:message for="subject" style="color:red"/>
+                </h:panelGroup>
+                
+                Message:
+                <h:panelGroup>
+                    <h:inputTextarea cols="45" rows="15" id="message"
+                                     value="#{clientBean.message}"
+                                     required="true"
+                                     requiredMessage="Required"/>
+                    <h:message for="message" style="color:red"/>
+                </h:panelGroup>
+                
+                <h:commandButton value="Send" action="#{clientBean.send()}"/>
+                <h:outputText value="#{clientBean.statusMessage}" style="color:red"/>
+                
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>
