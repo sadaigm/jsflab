@@ -14,7 +14,7 @@ public class LoginDAO {
  
         try {
             con = DataConnect.getConnection();
-            ps = con.prepareStatement("Select uname, password from Users where uname = ? and password = ? and role = ?");
+            ps = con.prepareStatement("Select uname, password from users where uname = ? and password = ? and role = ?");
             ps.setString(1, user);
             ps.setString(2, password);
             ps.setString(3, role);

@@ -22,12 +22,20 @@
       </h:outputStylesheet>
         <br/>
         
-         <h:panelGrid columns="3" style="text-align:right;font-size: smaller;">
-          <p:commandButton id="ViewTestRun" type="submit" action="#{runnerController.ViewCreated}" value="View Executions"  style="float:right;width: auto;font-size: smaller; " icon="ui-icon-folder-collapsed" />
-             <p:commandButton id="AddModule" type="submit" action="#{runnerController.AddTestModule}" value="Add Test Module"  style="float:right;width: auto;font-size: smaller;  " icon="ui-icon-folder-collapsed" />
-        
+         <h:panelGrid columns="2" style="text-align:right;font-size: smaller;">
+          <p:commandButton id="ViewTestRun" type="submit" action="#{runnerController.ViewCreated}" value="Today's Executions"  style="float:right;width: auto;font-size: small; " icon="ui-icon-folder-collapsed" />
+             <p:commandButton id="AddModule" type="submit" action="#{runnerController.AddTestModule}" value="Add New Run"  style="float:right;width: auto;font-size: small;  " icon="ui-icon-folder-collapsed" />
+       
+       </h:panelGrid>
+        <hr/>
+       <h:panelGrid columns="2" >
+        Module : <h:inputText id="modfilter" value="#{runnerController.moduleName}" label="Module" ></h:inputText>
+         Iteration: <h:inputText id="iterfilter" value="#{runnerController.iteration}" label="Iteration" ></h:inputText>
+          RunnerID: <h:inputText id="runIDfilter" value="#{runnerController.runIDfilter}" label="RunnerID" ></h:inputText>
+            <p:commandButton id="ViewFiltered" type="submit" action="#{runnerController.ViewFiltered}" value="Apply Filter"  style="float:right;width: auto;font-size: small; " icon="ui-icon-folder-collapsed" />
           
        </h:panelGrid>
+       <hr/>
  <h:panelGrid columns="4" style="text-align:right;font-size: smaller;">
  
 
@@ -57,10 +65,12 @@
  
 </h:panelGrid>
  <h:panelGrid columns="1"  styleClass="MyDataTableStyle" >
-         <p:dataTable var="testcases" value="#{dtView.runnerModel}" paginator="true" rows="10"  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-           rowsPerPageTemplate="5,10,15"  selectionMode="single" selection="#{dtView.selectedRunner}"  rowKey="#{testcases.runnerId}" id="RunTable"
+         <p:dataTable var="testcases" value="#{dtView.runnerModel}" paginator="true" rows="10"   currentPageReportTemplate="(Displaying {startRecord} - {endRecord} of 
+       {totalRecords}, Page: {currentPage} of {totalPages})"
+          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+           rowsPerPageTemplate="5,10,15" selectionMode="single"  selection="#{dtView.selectedRunner}"  rowKey="#{testcases.runnerId}" id="RunTable"
           widgetVar="runnerTable"  emptyMessage="No records found with given criteria" > 
-     <p:ajax event="rowSelect" listener="#{dtView.onRowSelect}" update=":form:carDetail" oncomplete="PF('carDialog').show()" />
+  <!--    <p:ajax event="rowSelect" listener="#{dtView.onRowSelect}" update=":form:viewTestRun" oncomplete="PF('carDialog').show()" /> -->
         
   
 
@@ -81,7 +91,7 @@
   <h:outputText value="#{testcases.runnerId}"/>
 
   </p:column>
-  <p:column headerText="Tester" sortBy="#{testcases.tester}" filterBy="#{testcases.tester}">
+  <p:column headerText="Tester" sortBy="#{testcases.tester}" filterBy="#{testcases.tester}" filterMatchMode="contains">
   <h:outputText value="#{testcases.tester}"/>
   </p:column>
   <p:column headerText="TestCaseID" filterBy="#{testcases.testCaseId}" filterMatchMode="contains">
@@ -93,44 +103,72 @@
   <p:column headerText="date" filterBy="#{testcases.executeddate}" filterMatchMode="contains">
   <h:outputText value="#{testcases.executeddate}"/>
   </p:column>
+  <p:column headerText="View" style="width:32px;text-align: center">
+						<p:commandButton update=":form:editTestRun"
+							oncomplete="PF('editTestRun').show()"
+							icon="ui-icon-search" title="View">
+							<f:setPropertyActionListener value="#{testcases}"
+								target="#{dtView.editSelectedRunner}" />
+						</p:commandButton>
+						<p:commandButton update=":form:editTestRun"
+							oncomplete="PF('editTestRun').show()"
+							icon="ui-icon-pencil" title="Edit">
+							<f:setPropertyActionListener value="#{testcases}"
+							target="#{dtView.editSelectedRunner}"  />
+						</p:commandButton>
+						</p:column>
  
 </p:dataTable>
 
 </h:panelGrid>
 
 
-<p:dialog header="Test Runner Details" widgetVar="carDialog" resizable="false" >
-        <p:outputPanel id="carDetail">
-            <p:panelGrid  columns="2" rendered="#{not empty dtView.selectedRunner}" styleClass="MyDataTableStyle" style="width:500px;height:400px">
+<p:dialog header="Test Runner Details"  widgetVar="editTestRun"  resizable="false" >
+        <p:outputPanel id="editTestRun">
+            <p:panelGrid  columns="2" rendered="#{not empty dtView.editSelectedRunner}" styleClass="MyDataTableStyle" style="width:500px;height:400px">
                 <f:facet name="header">
                     TestRunner
                 </f:facet>
  
                 <h:outputLabel value="Id:" />
-                <h:outputText value="#{dtView.selectedRunner.runnerId}" />
+                <h:outputText value="#{dtView.editSelectedRunner.runnerId}" />
+    <h:outputLabel for="runName" value="Run Name:*"/>
+           <h:selectOneMenu id="runName" value="#{dtView.editSelectedRunner.runname}" label="runName" required="true">
+           <f:selectItem itemLabel="Select" itemValue="" />
+           <f:selectItems value="#{TestRunDAOImpl.runNames}" />
+           </h:selectOneMenu>
+             
+  <h:outputLabel for="TestCaseID" value="TestCaseID:*"/>
+            <h:selectOneMenu id="TestCaseID" value="#{dtView.editSelectedRunner.testCaseId}"  label="TestCaseID" required="true">
+            <f:selectItem itemLabel="Select" itemValue="" />
+           <f:selectItems value="#{TestcaseDAOImpl.testCaseNames}" />
+           </h:selectOneMenu>
+              
  
-                <h:outputLabel value="tester" />
-                <h:inputText value="#{dtView.selectedRunner.tester}" />
- 
-                <h:outputLabel value="TC Id" />
-                <h:inputText value="#{dtView.selectedRunner.testCaseId}"/>
- 
-                <h:outputLabel value="Status" />
-                <h:inputText value="#{dtView.selectedRunner.status}">
+ <h:outputLabel for="Status" value="Status:*" />
+            <h:selectOneMenu  id="Status" value="#{dtView.editSelectedRunner.status}" label="Status" required="true">
+            <f:selectItem itemLabel="Select" itemValue="" />
+           <f:selectItems value="#{TestRunDAOImpl.testStatus}" />
+           </h:selectOneMenu>
+                <h:outputLabel for="TesterName" value="Executor Name:*" />
+              <h:selectOneMenu  id="TesterName" value="#{dtView.editSelectedRunner.tester}" label="TesterName" required="true">
+              <f:selectItem itemLabel="Select" itemValue="" />
+           <f:selectItems value="#{TestRunDAOImpl.executors}" itemValue="#{dtView.editSelectedRunner.tester}" />
+           </h:selectOneMenu>
                    
-                </h:inputText>
+                
                  <h:outputLabel value="DefectID" />
-                <h:inputText value="#{dtView.selectedRunner.defectid}">
+                <h:inputText value="#{dtView.editSelectedRunner.defectid}">
                    
                 </h:inputText>
                  <h:outputLabel value="BuildNo" />
-                <h:inputText value="#{dtView.selectedRunner.buildno}">
+                <h:inputText value="#{dtView.editSelectedRunner.buildno}">
                      </h:inputText>
                  <h:outputLabel value="Executed Date" />
-                  <p:calendar id="datetime" maxdate="#{dtView.todatdt}" value="#{dtView.selectedRunner.executeddate}" pattern="MM/dd/yyyy HH:mm:ss" />
+                  <p:calendar id="datetime" maxdate="#{dtView.todatdt}" value="#{dtView.editSelectedRunner.executeddate}" pattern="MM/dd/yyyy HH:mm:ss" />
                
                  <h:outputLabel value="Comments" />
-                <p:inputTextarea rows="12" cols="40"   style="resize: none" autoResize="false" value="#{dtView.selectedRunner.comments}">
+                <p:inputTextarea rows="12" cols="40"   style="resize: none" autoResize="false" value="#{dtView.editSelectedRunner.comments}">
                    
                 </p:inputTextarea>
                 <f:facet name="footer">

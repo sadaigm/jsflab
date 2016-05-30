@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -23,7 +24,7 @@ import com.sa.tcm.entity.Runner;
 import com.sa.tcm.model.RunnerDataModel;
 
 @ManagedBean(name="dtView")
-@ViewScoped
+@RequestScoped
 public class ViewRunner implements Serializable{
 	
 	@ManagedProperty("#{runnerController}")
@@ -45,6 +46,14 @@ public class ViewRunner implements Serializable{
 	private RunnerDataModel runnerModel;
 	public RunnerDataModel getRunnerModel() {
 		return runnerModel;
+	}
+	private Runner editSelectedRunner;
+	public Runner getEditSelectedRunner() {
+		return editSelectedRunner;
+	}
+
+	public void setEditSelectedRunner(Runner editSelectedRunner) {
+		this.editSelectedRunner = editSelectedRunner;
 	}
 
 	private Runner selectedRunner;
@@ -76,6 +85,7 @@ public class ViewRunner implements Serializable{
 		
 		runnerModel = new RunnerDataModel(runimpl.getAllRunnerIDs());
 		setTodatdt(runimpl.getToday());
+		startRunner.fetchdropList();
 		//runners = runimpl.getAllRunnerIDs();
     }
 	
@@ -87,9 +97,10 @@ public class ViewRunner implements Serializable{
 	
 	public void onClickSave() {
        
-        System.out.println(getSelectedRunner().getRunnerId()+" is clicked");
-        System.out.println(getSelectedRunner().getStatus()+" is clicked");
-       startRunner.updateExecLog(getSelectedRunner());
+        System.out.println(getEditSelectedRunner().getRunnerId()+" is clicked");
+        System.out.println(getEditSelectedRunner().getStatus()+" is clicked");
+       startRunner.updateExecLog(getEditSelectedRunner());
+       
     }
 	public Date getCurrentTimeStamp() throws ParseException
     {

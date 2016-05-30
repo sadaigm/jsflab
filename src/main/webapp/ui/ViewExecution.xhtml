@@ -8,7 +8,7 @@
 	</ui:define>
 	
     <ui:define name="content">                        
-        <h1 class="page-header "> <i class="fa fa-tachometer"></i>Today's Execution Summary</h1>
+        <h1 class="page-header "> <i class="fa fa-tachometer"></i><h:outputLabel value="#{ExecView.pageTitle}"></h:outputLabel></h1>
       <h:form id="form" >
       <h:outputStylesheet>
     
@@ -23,8 +23,8 @@
         
          <h:panelGrid columns="3" style="text-align:right;">
            
-          <p:commandButton id="NewExecutionTask" ajax="false"  type="submit" action="#{runnerController.prepareCreate}" value="New Execution"  style="float:right;" icon="ui-icon-document-b" />
-          <p:commandButton id="BackTestRun" ajax="false" type="submit" value="Back to Test Run" action="#{runnerController.ViewTestRunner}" style="float:right;" icon="ui-icon-carat-1-w" />
+          <p:commandButton id="NewExecutionTask" ajax="false"  type="submit" action="#{runnerController.prepareCreate}" value="New Execution"  style="float:right;font-size: small; " icon="ui-icon-document-b" />
+          <p:commandButton id="BackTestRun" ajax="false" type="submit" value="Back to Test Run" action="#{runnerController.ViewTestRunner}" style="float:right;font-size: small; " icon="ui-icon-carat-1-w" />
           
          </h:panelGrid>
           <h:panelGrid columns="4">

@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.SelectEvent;
 
+import com.sa.tcm.bean.SessionBean;
 import com.sa.tcm.controller.RunnerController;
 import com.sa.tcm.dao.RunnerDAOImpl;
 import com.sa.tcm.entity.Runner;
@@ -26,6 +27,19 @@ import com.sa.tcm.model.RunnerDataModel;
 @ManagedBean(name="ExecView")
 @ViewScoped
 public class ViewExecutionPage implements Serializable{
+	
+
+	
+String PageTitle = "Today's Execution Summary";
+	public String getPageTitle() {
+	return PageTitle;
+}
+
+public void setPageTitle(String pageTitle) {
+	PageTitle = pageTitle;
+}
+
+
 	Date todatdt;
 	public Date getTodatdt() {
 		return todatdt;
@@ -76,12 +90,44 @@ public class ViewExecutionPage implements Serializable{
 
 	@PostConstruct
     public void init() {
-		loadTodayExecution();
+		startRunner.setIsDateFilter(Boolean.TRUE);
+		loadExecution();
 		//runners = runimpl.getAllRunnerIDs();
     }
+	private void loadExecution() {
+		System.out.println("Entering Filter");
+		System.out.println(startRunner.getFilterName());
+		if(((String)SessionBean.getSession().getAttribute("filter"))!=null)
+		{
+			System.out.println(startRunner.getFilterName());
+		if( ((String) SessionBean.getSession().getAttribute("filter")).equalsIgnoreCase("DATE"))
+		{
+			System.out.println("Date Filter");
+			startRunner.setIsDateFilter(Boolean.TRUE);
+			loadTodayExecution();
+		}
+		else if( ((String) SessionBean.getSession().getAttribute("filter")).equalsIgnoreCase("MOD"))
+		{
+			setPageTitle("Execution Summary Filter Results");
+			System.out.println("Mod Filter");
+			startRunner.setIsDateFilter(Boolean.FALSE);
+			ExecutionFilter();
+		}
+		}
+	}
+	public void ExecutionFilter()
+	{
+		
+		runimpl.setItrName(((String) SessionBean.getSession().getAttribute("iteration")));
+		runimpl.setModuleName(((String) SessionBean.getSession().getAttribute("module")));
+		runimpl.setRunIDFilter(((String) SessionBean.getSession().getAttribute("runidfilter")));
+		runnerModel = new RunnerDataModel(runimpl.getModuleFilter());
+		setTodatdt(runimpl.getToday());
+	}
 	public void loadEventTodayExecution(CloseEvent event)
 	{
-		loadTodayExecution();
+		
+		loadExecution();
 	}
 	public void loadTodayExecution()
 	{

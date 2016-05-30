@@ -14,8 +14,7 @@
    
      <h:panelGrid columns="3" style="text-align:right;">
            
-          <p:commandButton id="BackTestRun" immediate="true" value="Back" action="#{runnerController.ViewCreated}"  icon="ui-icon-carat-1-w" />
-          
+         
          </h:panelGrid>
     <p:accordionPanel multiple="true">
 	
@@ -27,19 +26,34 @@
             <p:message for="ModuleName" /> -->
            
             <h:outputLabel for="TestCaseID" value="TestCaseID:*"/>
-            <p:inputText id="TestCaseID" value="#{runnerController.selected.testCaseId}" label="Test Case ID" required="true"/>
+            <h:selectOneMenu id="TestCaseID" value="#{runnerController.selected.testCaseId}"  label="TestCaseID" required="true">
+            <f:selectItem itemLabel="Select" itemValue="" />
+           <f:selectItems value="#{TestcaseDAOImpl.testCaseNames}" />
+           </h:selectOneMenu>
             <p:message for="TestCaseID"/>
+             <h:outputLabel for="runName" value="Run Name:*"/>
+           <h:selectOneMenu id="runName" value="#{runnerController.selected.runname}" label="runName" required="true">
+           <f:selectItem itemLabel="Select" itemValue="" />
+           <f:selectItems value="#{TestRunDAOImpl.runNames}" />
+           </h:selectOneMenu>
+            <p:message for="runName"/>
             
              <h:outputLabel for="Status" value="Status:*" />
-            <p:inputText id="Status" value="#{runnerController.selected.status}" label="Task Status" required="true"/>
+            <h:selectOneMenu  id="Status" value="#{runnerController.selected.status}" label="Task Status" required="true">
+            <f:selectItem itemLabel="Select" itemValue="" />
+           <f:selectItems value="#{TestRunDAOImpl.testStatus}" />
+           </h:selectOneMenu>
             <p:message for="Status" />
             
-             <h:outputLabel for="DefectID" value="DefectID:*"/>
-            <p:inputText id="DefectID" value="#{runnerController.selected.defectid}" label="DefectID" required="true"/>
+             <h:outputLabel for="DefectID" value="DefectID:"/>
+            <p:inputText id="DefectID" value="#{runnerController.selected.defectid}" label="DefectID" />
             <p:message for="DefectID"/>
             
             <h:outputLabel for="TesterName" value="Executor Name:*" />
-            <p:inputText id="TesterName" value="#{runnerController.selected.tester}" label="Executor Name" required="true"/>
+              <h:selectOneMenu  id="TesterName" value="#{runnerController.selected.tester}" label="Executor Name" required="true">
+              <f:selectItem itemLabel="Select" itemValue="" />
+           <f:selectItems value="#{TestRunDAOImpl.executors}" />
+           </h:selectOneMenu>
             <p:message for="TesterName" />
 			
 			
@@ -47,17 +61,18 @@
 			<h:outputLabel for="Build_No" value="Build_No:*" />
             <p:inputText id="Build_No" value="#{runnerController.selected.buildno}" label="Build_No" required="true"/>
             <p:message for="Build_No" />
-             <h:outputLabel value="Executed Date" />
-                  <p:calendar id="Executeddate" maxdate="#{ExecView.todatdt}" value="#{ExecView.selectedRunner.executeddate}" pattern="MM/dd/yyyy HH:mm:ss" />
+             <h:outputLabel value="Executed Date:*" />
+                  <p:calendar id="Executeddate" required="true" maxdate="#{ExecView.todatdt}" label="Executed Date" value="#{runnerController.selected.executeddate}" pattern="MM/dd/yyyy HH:mm:ss" />
                 <p:message for="Executeddate" />
-            <h:outputLabel for="ExecutorComments" value="Comments:*" />
+            <h:outputLabel for="ExecutorComments" value="Comments:" />
              
             <p:inputTextarea id="ExecutorComments" rows="12" cols="40"  style="resize: none" autoResize="false"  value="#{runnerController.selected.comments}" label="Comments"/>
             <p:message for="ExecutorComments" />
 			
 			<f:facet name="footer">
-			<p:commandButton type="submit" update="grid" action="#{runnerController.AddNewExecLog}" value="Save" icon="ui-icon-disk"></p:commandButton>
-			
+			<p:commandButton type="submit"  style="font-size: small; " update="grid" action="#{runnerController.AddNewExecLog}" value="Save" icon="ui-icon-disk"></p:commandButton>
+			 <p:commandButton id="Back" style="font-size: small; " immediate="true" value="Cancel" action="#{runnerController.ViewCreated}"  icon="ui-icon-carat-1-w" />
+          
 			</f:facet>
 			</h:panelGrid>
         </p:tab>

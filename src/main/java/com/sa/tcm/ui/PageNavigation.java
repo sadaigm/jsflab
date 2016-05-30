@@ -8,7 +8,16 @@ import javax.faces.bean.ManagedBean;
 public class PageNavigation implements Serializable{
 	
 	String TESTCASE_URL="/faces/ui/testcases/ViewTestCases.xhtml", TEST_URL="tc/ViewTestCases.xhtml",TEST_RUNNER="/faces/ui/TestRunner2.xhtml",TEST_REPORT="/faces/chart2.xhtml",TEST_HOME="/faces/MyTemplateHome.xhtml";
+	String TEST_SUMMARY_REPORT_CHART="/faces/TestSummaryReport_Chart.xhtml";
 	
+	public String getTEST_SUMMARY_REPORT_CHART() {
+		return TEST_SUMMARY_REPORT_CHART;
+	}
+
+	public void setTEST_SUMMARY_REPORT_CHART(String tEST_SUMMARY_REPORT_CHART) {
+		TEST_SUMMARY_REPORT_CHART = tEST_SUMMARY_REPORT_CHART;
+	}
+
 	public String getTESTCASE_URL() {
 		return TESTCASE_URL;
 	}

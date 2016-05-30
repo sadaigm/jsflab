@@ -10,6 +10,8 @@ version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
 <class>com.sa.tcm.entity.Defect</class>
 <class>com.sa.tcm.entity.User</class>
 <class>com.sa.tcm.entity.Testcase</class>
+<class>com.sa.tcm.entity.Teststatus</class>
+
 
 <properties>
 <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
@@ -19,7 +21,7 @@ value="jdbc:mysql://localhost:3306/tcm" />
 <property name="javax.persistence.jdbc.password"
 value="sadai" />
 <!-- EclipseLink should create the database schema automatically -->
-<property name="eclipselink.ddl-generation" value="create-tables" />
+<property name="eclipselink.ddl-generation" value="none" />
 <property name="eclipselink.ddl-generation.output-mode"
 value="database" />
 </properties>

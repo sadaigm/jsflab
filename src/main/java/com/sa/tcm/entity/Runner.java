@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author sadaiyandi
  */
 @Entity
+@Table(name="runner")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Runner.findAll", query = "SELECT r FROM Runner r order by r.runnerId desc"),
@@ -25,8 +26,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Runner.findByTester", query = "SELECT r FROM Runner r WHERE r.tester = :tester"),
     @NamedQuery(name = "Runner.findByExecuteddate", query = "SELECT r FROM Runner r WHERE r.executeddate = :executeddate"),
     @NamedQuery(name = "Runner.findLikeExecuteddate", query = "SELECT r FROM Runner r WHERE r.executeddate >= :executeddate"),
-    @NamedQuery(name = "Runner.findByComments", query = "SELECT r FROM Runner r WHERE r.comments = :comments")})
+	@NamedQuery(name = "Runner.findByComments", query = "SELECT r FROM Runner r WHERE r.comments = :comments")})
 public class Runner implements Serializable {
+	
+	
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +49,8 @@ public class Runner implements Serializable {
     @Size(max = 100)
     @Column(name = "Defect_id",length = 100)
     private String defectid;
+    @Column(name = "run_name")
+    private String runname;
     @Size(max = 12)
     @Column(name = "tester", length = 12)
     private String tester;
@@ -167,6 +172,15 @@ public class Runner implements Serializable {
         return true;
     }
 */
+    
+    public String getRunname() {
+		return runname;
+	}
+
+	public void setRunname(String runname) {
+		this.runname = runname;
+	}
+
     
     
     @Override

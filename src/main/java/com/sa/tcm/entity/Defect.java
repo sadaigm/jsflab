@@ -1,8 +1,14 @@
 package com.sa.tcm.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -10,6 +16,7 @@ import java.util.Date;
  * 
  */
 @Entity
+@Table(name="defect")
 @NamedQuery(name="Defect.findAll", query="SELECT d FROM Defect d")
 public class Defect implements Serializable {
 	private static final long serialVersionUID = 1L;

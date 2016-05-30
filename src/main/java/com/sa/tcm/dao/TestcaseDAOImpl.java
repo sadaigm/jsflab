@@ -1,8 +1,11 @@
 package com.sa.tcm.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
@@ -20,6 +23,25 @@ public class TestcaseDAOImpl  implements Serializable,TestcaseDAO {
 	/**
 	 * 
 	 */
+	private Map<String, String> testCaseNames = new HashMap<String, String>();
+	private List<String>  autotestCaseNames =  new ArrayList<String> ();
+
+	public List<String> getAutotestCaseNames() {
+		return autotestCaseNames;
+	}
+
+	public void setAutotestCaseNames(List<String> autotestCaseNames) {
+		this.autotestCaseNames = autotestCaseNames;
+	}
+
+	public Map<String, String> getTestCaseNames() {
+		return testCaseNames;
+	}
+
+	public void setTestCaseNames(Map<String, String> testCaseNames) {
+		this.testCaseNames = testCaseNames;
+	}
+
 	private  Date today = null;
 	public  Date getToday() {
 		return today;
@@ -50,9 +72,9 @@ public class TestcaseDAOImpl  implements Serializable,TestcaseDAO {
 		List<Testcase> testcases = query.getResultList();
 		
 		
-		/*for( Testcase e:testcases ){
-	         System.out.print(" ID :" + e.getTestCaseId());
-	         System.out.println("\t  Status :" + e.getStatus());
+	/*	for( Testcase e:testcases ){
+	         System.out.print(" ID :" + e.getTest_Case_ID());
+	         System.out.println("\t  Status :" + e.getTestcaseIdpk());
 	      }*/
 		
 		
@@ -117,6 +139,16 @@ public class TestcaseDAOImpl  implements Serializable,TestcaseDAO {
 		return false;
 	}
 	
-	
+	public void getTestCaseNameMap() {
+		List<Testcase> testcases = getAllTestcaseIDs();
+		for (Testcase tc : testcases) {
+			if(tc.getTest_Case_ID()!=null)
+			{
+				testCaseNames.put(tc.getTest_Case_ID(), tc.getTest_Case_ID());	
+				autotestCaseNames.add(tc.getTest_Case_ID());
+			}
+			
+     }
+	}
 
 }

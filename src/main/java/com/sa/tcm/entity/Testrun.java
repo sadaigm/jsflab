@@ -13,6 +13,7 @@ import java.util.Date;
  * 
  */
 @Entity
+@Table(name="testrun")
 @NamedQuery(name="Testrun.findAll", query="SELECT t FROM Testrun t")
 public class Testrun implements Serializable {
 	private static final long serialVersionUID = 1L;

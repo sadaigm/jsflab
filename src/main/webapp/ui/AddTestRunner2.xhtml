@@ -11,7 +11,10 @@
     
     <h:form id="form">           
     <p:growl id="msgs" autoUpdate="true" showDetail="true" />
+     <h:panelGrid columns="3" style="text-align:right;">
+      
     
+    </h:panelGrid>
     <p:accordionPanel multiple="true">
 	 <p:ajax event="tabChange" listener="#{ChangeNotificationBean.onTabChange}" update=":form:msgs" />
         <p:ajax event="tabClose" listener="#{ChangeNotificationBean.onTabClose}" update=":form:msgs" />
@@ -34,7 +37,8 @@
             <p:message for="Build_No" />
 			
 			<f:facet name="footer">
-			<p:commandButton type="submit" action="#{testRunController.AddNewMod}" value="Save" icon="ui-icon-disk"></p:commandButton>
+			<p:commandButton type="submit" style="width: auto;font-size: small; "  action="#{testRunController.AddNewMod}" value="Save" icon="ui-icon-disk"></p:commandButton>
+			<p:commandButton id="BackTestRun" immediate="true" value="Cancel" action="#{runnerController.ViewTestRunner}" style="width: auto;font-size: small; " icon="ui-icon-carat-1-w" />
 			</f:facet>
 			</h:panelGrid>
         </p:tab>
